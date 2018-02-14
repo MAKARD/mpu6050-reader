@@ -6,7 +6,7 @@ Sensor::Sensor(int pinOne, int pinTwo) {
     this.pinTwo = pinTwo;
 }
 
-string Sensor::stringlyfyData() {
+string Sensor::stringifyData() {
     return "a^" + this.sensor.accelerometer.x + "_"
         + this.sensor.accelerometer.y + "_"
         + this.sensor.accelerometer.z + "a$"

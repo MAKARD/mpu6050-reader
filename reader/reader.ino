@@ -47,7 +47,7 @@ void loop() {
         holder[i].readAcceleration();
         holder[i].readRotation();
         
-        Serial.println(holder[i].stringlifyData());
+        Serial.println(holder[i].stringifyData());
         delay(250);
     }
 }
