@@ -32,8 +32,8 @@ void setup() {
         holder[i].sensor.initialize();
         Serial.println("Testing device connections...");
         Serial.println(holder[i].sensor.testConnection()
-            ? "Sensor" + sensorName + "connection successful" 
-            : "Sensor" + sensorName + "connection failed");
+            ? "Sensor " + sensorName + " connection successful" 
+            : "Sensor " + sensorName + " connection failed");
 
         // todo: calculate offsets
     }
