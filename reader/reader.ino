@@ -2,7 +2,6 @@
 #include "Wire.h"
 #include "I2Cdev.h"
 #include "Sensor.h"
-#include "StandardCplusplus"
 
 #define SENSORS_COUNT = 4
 #define DEFAULT_DELAY = 250
@@ -48,6 +47,6 @@ void loop() {
         holder[i].readRotation();
         
         Serial.println(holder[i].stringifyData());
-        delay(250);
+        delay(DEFAULT_DELAY);
     }
 }
