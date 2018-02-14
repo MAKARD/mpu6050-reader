@@ -20,7 +20,7 @@ class Sensor {
         AccelerometerData accelerometer;
         GyroscopeData gyroscope;
 
-        string strinifyData();
+        string stringifyData();
 
         void readAcceleration();
         void readRotation();
