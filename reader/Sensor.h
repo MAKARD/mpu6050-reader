@@ -22,6 +22,6 @@ class Sensor {
 
         string strinifyData();
 
-        void readAcceleration():
+        void readAcceleration();
         void readRotation();
 };
