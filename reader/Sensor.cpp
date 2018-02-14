@@ -7,26 +7,26 @@ Sensor::Sensor(int pinOne, int pinTwo) {
 }
 
 string Sensor::stringifyData() {
-    return "a^" + this.sensor.accelerometer.x + "_"
-        + this.sensor.accelerometer.y + "_"
-        + this.sensor.accelerometer.z + "a$"
-        + "g^" + this.sensor.gyroscope.x + "_"
-        + this.sensor.gyroscope.y + "_"
-        + this.sensor.gyroscope.z + "g$";
+    return "a^" + this.accelerometer.x + "_"
+        + this.accelerometer.y + "_"
+        + this.accelerometer.z + "a$"
+        + "g^" + this.gyroscope.x + "_"
+        + this.gyroscope.y + "_"
+        + this.gyroscope.z + "g$";
 }
 
 void readAcceleration() {
     this.sensor.getAcceleration(
-        &this.sensor.accelerometer.x,
-        &this.sensor.accelerometer.y,
-        &this.sensor.accelerometer.z
+        &this.accelerometer.x,
+        &this.accelerometer.y,
+        &this.accelerometer.z
     );
 }
 
 void readRotation() {
     this.sensor.getRotation(
-        &this.sensor.gyroscope.x,
-        &this.sensor.gyroscope.y,
-        &this.sensor.gyroscope.z
+        &this.gyroscope.x,
+        &this.gyroscope.y,
+        &this.gyroscope.z
     );
 }
