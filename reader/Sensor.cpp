@@ -1,4 +1,3 @@
-
 #include "Sensor.h"
 
 Sensor::Sensor(int pinOne, int pinTwo) {

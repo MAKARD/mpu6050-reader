@@ -42,5 +42,5 @@ void loop() {
         holder[i].readRotation();
         Serial.println("{'id':" + String(i) + ",'data':" + holder[i].serializeData() + "}");
     }
-    delay(250);
+    delay(DEFAULT_DELAY);
 }
