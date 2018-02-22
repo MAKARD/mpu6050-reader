@@ -2,31 +2,31 @@
 #include "Sensor.h"
 
 Sensor::Sensor(int pinOne, int pinTwo) {
-    this.pinOne = pinOne;
-    this.pinTwo = pinTwo;
+    this->pinOne = pinOne;
+    this->pinTwo = pinTwo;
 }
 
-string Sensor::stringifyData() {
-    return "a^" + this.sensor.accelerometer.x + "_"
-        + this.sensor.accelerometer.y + "_"
-        + this.sensor.accelerometer.z + "a$"
-        + "g^" + this.sensor.gyroscope.x + "_"
-        + this.sensor.gyroscope.y + "_"
-        + this.sensor.gyroscope.z + "g$";
+String Sensor::serializeData(void) {
+  return "{'acc':{'x':" + String(this->accelerometer.x) + ","
+          + "'y':" + String(this->accelerometer.y) + ","
+          + "'z':" + String(this->accelerometer.z) + "},"
+          + "'gyro':{'x': " + String(this->gyroscope.x) + ","
+          + "'y':" + String(this->gyroscope.y) + ","
+          + "'z':" + String(this->gyroscope.z) + "}}";
 }
 
-void readAcceleration() {
-    this.sensor.getAcceleration(
-        &this.sensor.accelerometer.x,
-        &this.sensor.accelerometer.y,
-        &this.sensor.accelerometer.z
+void Sensor::readAcceleration(void) {
+    this->sensor.getAcceleration(
+        &this->accelerometer.x,
+        &this->accelerometer.y,
+        &this->accelerometer.z
     );
 }
 
-void readRotation() {
-    this.sensor.getRotation(
-        &this.sensor.gyroscope.x,
-        &this.sensor.gyroscope.y,
-        &this.sensor.gyroscope.z
+void Sensor::readRotation() {
+    this->sensor.getRotation(
+        &this->gyroscope.x,
+        &this->gyroscope.y,
+        &this->gyroscope.z
     );
 }

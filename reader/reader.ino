@@ -2,11 +2,10 @@
 #include "Wire.h"
 #include "I2Cdev.h"
 #include "Sensor.h"
-#include "StandardCplusplus"
 
-#define SENSORS_COUNT = 4
-#define DEFAULT_DELAY = 250
-#define DEFAULT_BAUD_RATE = 9600
+#define SENSORS_COUNT 4
+#define DEFAULT_DELAY 250
+#define DEFAULT_BAUD_RATE 9600
 
 Sensor holder[SENSORS_COUNT] = {
     Sensor(0, 0),
@@ -23,31 +22,25 @@ void setup() {
     pinMode(10, OUTPUT);
 
     for (int i = 0; i < SENSORS_COUNT; i++) {
-        string sensorName = i + "(" + holder[i].pinOne + holder[i].pinTwo + ")");
-        Serial.println("Initializing sensor " + sensorName;
-
         digitalWrite(9, holder[i].pinOne);
         digitalWrite(10, holder[i].pinTwo);
-
         holder[i].sensor.initialize();
-        Serial.println("Testing device connections...");
-        Serial.println(holder[i].sensor.testConnection()
-            ? "Sensor " + sensorName + " connection successful" 
-            : "Sensor " + sensorName + " connection failed");
-
+        holder[i].initialized = holder[i].sensor.testConnection();
         // todo: calculate offsets
     }
 }
 
 void loop() {
     for (int i = 0; i < SENSORS_COUNT; i ++) {
+        if (!holder[i].initialized){
+          continue;
+        }
         digitalWrite(9, holder[i].pinOne);
         digitalWrite(10, holder[i].pinTwo);
 
         holder[i].readAcceleration();
         holder[i].readRotation();
-        
-        Serial.println(holder[i].stringifyData());
-        delay(250);
+        Serial.println("{'id':" + String(i) + ",'data':" + holder[i].serializeData() + "}");
     }
+    delay(250);
 }

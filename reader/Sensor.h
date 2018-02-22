@@ -15,13 +15,13 @@ class Sensor {
 
         int pinOne;
         int pinTwo;
-
+        bool initialized;
         MPU6050 sensor;
-        AccelerometerData accelerometer;
+        
         GyroscopeData gyroscope;
+        AccelerometerData accelerometer;
 
-        string strinifyData();
-
-        void readAcceleration():
-        void readRotation();
+        void readRotation(void);
+        void readAcceleration(void);
+        String serializeData(void);
 };
