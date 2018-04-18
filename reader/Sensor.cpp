@@ -6,12 +6,12 @@ Sensor::Sensor(int pinOne, int pinTwo) {
 }
 
 String Sensor::serializeData(void) {
-  return "{'acc':{'x':" + String(this->accelerometer.x) + ","
-          + "'y':" + String(this->accelerometer.y) + ","
-          + "'z':" + String(this->accelerometer.z) + "},"
-          + "'gyro':{'x': " + String(this->gyroscope.x) + ","
-          + "'y':" + String(this->gyroscope.y) + ","
-          + "'z':" + String(this->gyroscope.z) + "}}";
+  return "{\"acc\":{\"x\":" + String(this->accelerometer.x) + ","
+          + "\"y\":" + String(this->accelerometer.y) + ","
+          + "\"z\":" + String(this->accelerometer.z) + "},"
+          + "\"gyro\":{\"x\": " + String(this->gyroscope.x) + ","
+          + "\"y\":" + String(this->gyroscope.y) + ","
+          + "\"z\":" + String(this->gyroscope.z) + "}}";
 }
 
 void Sensor::readAcceleration(void) {

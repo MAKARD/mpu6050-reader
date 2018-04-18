@@ -31,8 +31,11 @@ void setup() {
 }
 
 void loop() {
+    Serial.println("[");
+    int activeSensors = SENSORS_COUNT;
     for (int i = 0; i < SENSORS_COUNT; i ++) {
         if (!holder[i].initialized){
+          activeSensors--;
           continue;
         }
         digitalWrite(9, holder[i].pinOne);
@@ -40,7 +43,10 @@ void loop() {
 
         holder[i].readAcceleration();
         holder[i].readRotation();
-        Serial.println("{'id':" + String(i) + ",'data':" + holder[i].serializeData() + "}");
+        Serial.println("{\"id\":" + String(i) + ",\"data\":" + holder[i].serializeData() + "}" + (i == activeSensors ? "" : ","));
     }
-    delay(DEFAULT_DELAY);
+    Serial.println("]");
+    delay(DEFAULT_DELAY / 2);
+    Serial.println("$");
+    delay(DEFAULT_DELAY / 2);
 }
