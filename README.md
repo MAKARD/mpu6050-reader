@@ -1,7 +1,7 @@
 # mpu6050-reader
 server-side part of FINS
 
-Data exapmle
+Data example
 ```
 [
 {"id":0,"data":{"acc":{"x":-10268,"y":11148,"z":7432},"gyro":{"x": -589,"y":270,"z":-30}}},
