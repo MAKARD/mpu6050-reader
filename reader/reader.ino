@@ -8,45 +8,49 @@
 #define DEFAULT_BAUD_RATE 9600
 
 Sensor holder[SENSORS_COUNT] = {
-    Sensor(0, 0),
-    Sensor(0, 1),
-    Sensor(1, 0),
-    Sensor(1, 1)
+  Sensor(0, 0),
+  Sensor(0, 1),
+  Sensor(1, 0),
+  Sensor(1, 1)
 };
 
 void setup() {
-    Wire.begin();
-    Serial.begin(DEFAULT_BAUD_RATE);
+  Wire.begin();
+  Serial.begin(DEFAULT_BAUD_RATE);
 
-    pinMode(9, OUTPUT);
-    pinMode(10, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
 
-    for (int i = 0; i < SENSORS_COUNT; i++) {
-        digitalWrite(9, holder[i].pinOne);
-        digitalWrite(10, holder[i].pinTwo);
-        holder[i].sensor.initialize();
-        holder[i].initialized = holder[i].sensor.testConnection();
-        // todo: calculate offsets
-    }
+  for (int i = 0; i < SENSORS_COUNT; i++) {
+    digitalWrite(9, holder[i].pinOne);
+    digitalWrite(10, holder[i].pinTwo);
+    holder[i].sensor.initialize();
+    // todo: calculate offsets
+  }
 }
 
 void loop() {
-    Serial.println("[");
-    int activeSensors = SENSORS_COUNT;
-    for (int i = 0; i < SENSORS_COUNT; i ++) {
-        if (!holder[i].initialized){
-          activeSensors--;
-          continue;
-        }
-        digitalWrite(9, holder[i].pinOne);
-        digitalWrite(10, holder[i].pinTwo);
-
-        holder[i].readAcceleration();
-        holder[i].readRotation();
-        Serial.println("{\"id\":" + String(i) + ",\"data\":" + holder[i].serializeData() + "}" + (i == activeSensors ? "" : ","));
+  String message = "";
+  for (int i = 0; i < SENSORS_COUNT; i ++) {
+    digitalWrite(9, holder[i].pinOne);
+    digitalWrite(10, holder[i].pinTwo);
+    
+    if (!holder[i].sensor.testConnection()) {
+      continue;
     }
-    Serial.println("]");
-    delay(DEFAULT_DELAY / 2);
-    Serial.println("$");
-    delay(DEFAULT_DELAY / 2);
+    holder[i].sensor.initialize();
+    
+    holder[i].readAcceleration();
+    holder[i].readRotation();
+    if (message.length() == 0) {
+          message += "{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeData() + "}";
+    } else {
+          message += ",{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeData() + "}";
+    }
+  }
+  
+  Serial.println("[" + message + "]");
+  delay(DEFAULT_DELAY / 2);
+  Serial.println("$");
+  delay(DEFAULT_DELAY / 2);
 }
