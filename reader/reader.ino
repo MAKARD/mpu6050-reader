@@ -2,6 +2,7 @@
 #include "Wire.h"
 #include "I2Cdev.h"
 #include "Sensor.h"
+#include "TimeStep.h"
 
 #define SENSORS_COUNT 4
 #define DEFAULT_DELAY 250
@@ -13,6 +14,8 @@ Sensor holder[SENSORS_COUNT] = {
   Sensor(1, 0),
   Sensor(1, 1)
 };
+
+TimeStep* time;
 
 void setup() {
   Wire.begin();
@@ -27,9 +30,12 @@ void setup() {
     holder[i].sensor.initialize();
     // todo: calculate offsets
   }
+  time = new TimeStep(millis());
 }
 
 void loop() {
+  double timeStep = time->getCurrentStep(millis());
+    
   String message = "";
   for (int i = 0; i < SENSORS_COUNT; i ++) {
     digitalWrite(9, holder[i].pinOne);
@@ -42,13 +48,16 @@ void loop() {
     
     holder[i].readAcceleration();
     holder[i].readRotation();
+    holder[i].scaleRotation(131);
+    holder[i].calculateAngles(timeStep);
     if (message.length() == 0) {
-          message += "{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeData() + "}";
+          message += "{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeAnglesData() + "}";
     } else {
-          message += ",{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeData() + "}";
+          message += ",{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeAnglesData() + "}";
     }
   }
-  
+
+  time->tick();
   Serial.println("[" + message + "]");
   delay(DEFAULT_DELAY / 2);
   Serial.println("$");
