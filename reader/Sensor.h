@@ -1,10 +1,6 @@
 #include "MPU6050.h"
 
-struct AccelerometerData {
-    int16_t x, y, z;
-};
-
-struct GyroscopeData {
+struct AxisData {
     int16_t x, y, z;
 };
 
@@ -16,11 +12,18 @@ class Sensor {
         int pinTwo;
         bool initialized;
         MPU6050 sensor;
-        
-        GyroscopeData gyroscope;
-        AccelerometerData accelerometer;
 
-        void readRotation(void);
-        void readAcceleration(void);
-        String serializeData(void);
+        AxisData angles;
+        AxisData gyroscope;
+        AxisData accelerometer;
+
+        void readRotation();
+        void readAcceleration();
+
+        void scaleRotation(int16_t);
+        void calculateAngles(double);
+        
+        String serializeData();
+   private: 
+        AxisData gyroAngles;
 };
