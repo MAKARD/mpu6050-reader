@@ -51,9 +51,9 @@ void loop() {
     holder[i].scaleRotation(131);
     holder[i].calculateAngles(timeStep);
     if (message.length() == 0) {
-          message += "{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeAnglesData() + "}";
+          message += "{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeData() + "}";
     } else {
-          message += ",{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeAnglesData() + "}";
+          message += ",{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeData() + "}";
     }
   }
 

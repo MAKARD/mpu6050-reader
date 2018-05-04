@@ -11,19 +11,16 @@ Sensor::Sensor(int pinOne, int pinTwo) {
   this->gyroAngles.z = 0;
 }
 
-String Sensor::serializeRawData() {
+String Sensor::serializeData() {
   return "{\"acc\":{\"x\":" + String(this->accelerometer.x) + ","
          + "\"y\":" + String(this->accelerometer.y) + ","
          + "\"z\":" + String(this->accelerometer.z) + "},"
          + "\"gyro\":{\"x\": " + String(this->gyroscope.x) + ","
          + "\"y\":" + String(this->gyroscope.y) + ","
-         + "\"z\":" + String(this->gyroscope.z) + "}}";
-}
-
-String Sensor::serializeAnglesData() {
-  return "{\"x\":" + String(this->angles.x) + ","
+         + "\"z\":" + String(this->gyroscope.z) + "},"
+         + "\"angles\":{\"x\": " + String(this->angles.x) + ","
          + "\"y\":" + String(this->angles.y) + ","
-         + "\"z\":" + String(this->angles.z) + "}";
+         + "\"z\":" + String(this->angles.z) + "}}";
 }
 
 void Sensor::readAcceleration() {

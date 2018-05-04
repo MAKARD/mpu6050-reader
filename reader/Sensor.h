@@ -23,8 +23,7 @@ class Sensor {
         void scaleRotation(int16_t);
         void calculateAngles(double);
         
-        String serializeRawData();
-        String serializeAnglesData();
+        String serializeData();
    private: 
         AxisData gyroAngles;
 };
