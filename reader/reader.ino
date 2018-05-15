@@ -1,4 +1,3 @@
-
 #include "Wire.h"
 #include "I2Cdev.h"
 #include "Sensor.h"
@@ -28,36 +27,37 @@ void setup() {
     digitalWrite(9, holder[i].pinOne);
     digitalWrite(10, holder[i].pinTwo);
     holder[i].sensor.initialize();
-    // todo: calculate offsets
   }
-  time = new TimeStep(millis());
+
+  time = new TimeStep();
 }
 
 void loop() {
-  double timeStep = time->getCurrentStep(millis());
-    
+  double timeStep = time->getCurrentStep();
+
   String message = "";
   for (int i = 0; i < SENSORS_COUNT; i ++) {
     digitalWrite(9, holder[i].pinOne);
     digitalWrite(10, holder[i].pinTwo);
-    
+
     if (!holder[i].sensor.testConnection()) {
       continue;
     }
-    holder[i].sensor.initialize();
     
-    holder[i].readAcceleration();
     holder[i].readRotation();
+    holder[i].readAcceleration();
     holder[i].scaleRotation(131);
-    holder[i].calculateAngles(timeStep);
-    if (message.length() == 0) {
-          message += "{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeData() + "}";
+    holder[i].scaleAcceleration(16384);
+
+    String messageBody = "{\"id\":\"" + String(holder[i].pinOne) + String(holder[i].pinTwo) + "\", \"time\":" + String(timeStep) + ",\"data\":" + holder[i].serializeData() + "}";
+    if (message.length() != 0) {
+      message += "," + messageBody;
     } else {
-          message += ",{\"id\":" + String(i+1) + ",\"data\":" + holder[i].serializeData() + "}";
+      message += messageBody;
     }
+
   }
 
-  time->tick();
   Serial.println("[" + message + "]");
   delay(DEFAULT_DELAY / 2);
   Serial.println("$");
